@@ -1,6 +1,10 @@
-package ust.tad.modelsservice.technologyagnosticdeploymentmodel;
+package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities;
 
 import java.util.Objects;
+
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.PropertyType;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidPropertyValueException;
 
 public class AnnotatedProperty extends Property{
 

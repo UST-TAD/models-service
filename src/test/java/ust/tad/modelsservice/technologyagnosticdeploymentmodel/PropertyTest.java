@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.PropertyType;
+
 @SpringBootTest
 public class PropertyTest {
 
@@ -44,7 +47,7 @@ public class PropertyTest {
     public void createProperty_TypeInteger_SetValueAfterType() {
         Property property = new Property();
         property.setKey("testProperty");
-        assertDoesNotThrow(() -> property.setType(PropertyType.INT));
+        assertDoesNotThrow(() -> property.setType(PropertyType.INTEGER));
         assertDoesNotThrow(() -> property.setValue(3));
         property.setRequired(true);
     }
@@ -53,7 +56,7 @@ public class PropertyTest {
     public void createProperty_TypeLong_SetValueAfterType() {
         Property property = new Property();
         property.setKey("testProperty");
-        assertDoesNotThrow(() -> property.setType(PropertyType.INT));
+        assertDoesNotThrow(() -> property.setType(PropertyType.INTEGER));
         assertDoesNotThrow(() -> property.setValue(12345678910L));
         property.setRequired(true);
     }

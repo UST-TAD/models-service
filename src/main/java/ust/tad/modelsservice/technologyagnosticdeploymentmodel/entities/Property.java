@@ -1,6 +1,8 @@
-package ust.tad.modelsservice.technologyagnosticdeploymentmodel;
+package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 
 import java.util.Objects;
+
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidPropertyValueException;
 
 public class Property {
 
@@ -128,7 +130,7 @@ public class Property {
                     return value.getClass() == Boolean.class;
                 case DOUBLE:
                     return value.getClass() == Double.class || value.getClass() == Float.class;
-                case INT:
+                case INTEGER:
                     return value.getClass() == Integer.class || value.getClass() == Long.class;
                 case STRING:
                     return value.getClass() == String.class;
