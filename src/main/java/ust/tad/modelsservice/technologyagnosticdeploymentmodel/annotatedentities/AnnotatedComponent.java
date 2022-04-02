@@ -2,16 +2,13 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentitie
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Artifact;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Component;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.ComponentType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Operation;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 
-@Document(collection = "components")
 public class AnnotatedComponent extends Component{
 
     private Confidence confidence;
@@ -21,8 +18,8 @@ public class AnnotatedComponent extends Component{
         super();
     }
 
-    public AnnotatedComponent(String description, List<Property> properties, List<Operation> operations, UUID type, List<Artifact> artifacts, Confidence confidence) {
-        super(description, properties, operations, type, artifacts);
+    public AnnotatedComponent(String name, String description, List<Property> properties, List<Operation> operations, ComponentType type, List<Artifact> artifacts, Confidence confidence) {
+        super(name, description, properties, operations, type, artifacts);
         this.confidence = confidence;
     }
 
@@ -48,6 +45,7 @@ public class AnnotatedComponent extends Component{
         }
         AnnotatedComponent annotatedComponent = (AnnotatedComponent) o;
         return Objects.equals(getId(), annotatedComponent.getId()) 
+            && Objects.equals(getName(), annotatedComponent.getName()) 
             && Objects.equals(getDescription(), annotatedComponent.getDescription()) 
             && Objects.equals(getProperties(), annotatedComponent.getProperties()) 
             && Objects.equals(getOperations(), annotatedComponent.getOperations())
@@ -58,13 +56,14 @@ public class AnnotatedComponent extends Component{
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDescription(), getProperties(), getOperations(), getType(), getArtifacts(), confidence);
+        return Objects.hash(getId(), getName(), getDescription(), getProperties(), getOperations(), getType(), getArtifacts(), confidence);
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
             ", type='" + getType() + "'" +            
             ", description='" + getDescription() + "'" +
             ", properties='" + getProperties() + "'" +

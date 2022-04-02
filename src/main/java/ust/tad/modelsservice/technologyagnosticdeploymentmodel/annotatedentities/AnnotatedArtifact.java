@@ -3,11 +3,8 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentitie
 import java.net.URI;
 import java.util.Objects;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Artifact;
 
-@Document(collection = "artifacts")
 public class AnnotatedArtifact extends Artifact{
 
     private Confidence confidence;

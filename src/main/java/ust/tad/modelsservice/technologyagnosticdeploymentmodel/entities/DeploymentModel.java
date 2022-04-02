@@ -2,18 +2,17 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class DeploymentModel {
 
     private List<Property> properties;
 
-    private List<UUID> modelEntities;
+    private List<ModelEntity> modelEntities;
 
     public DeploymentModel() {
     }
 
-    public DeploymentModel(List<Property> properties, List<UUID> modelEntities) {
+    public DeploymentModel(List<Property> properties, List<ModelEntity> modelEntities) {
         this.properties = properties;
         this.modelEntities = modelEntities;
     }
@@ -26,11 +25,11 @@ public class DeploymentModel {
         this.properties = properties;
     }
 
-    public List<UUID> getModelEntities() {
+    public List<ModelEntity> getModelEntities() {
         return this.modelEntities;
     }
 
-    public void setModelEntities(List<UUID> modelEntities) {
+    public void setModelEntities(List<ModelEntity> modelEntities) {
         this.modelEntities = modelEntities;
     }
 
@@ -39,7 +38,7 @@ public class DeploymentModel {
         return this;
     }
 
-    public DeploymentModel modelEntities(List<UUID> modelEntities) {
+    public DeploymentModel modelEntities(List<ModelEntity> modelEntities) {
         setModelEntities(modelEntities);
         return this;
     }

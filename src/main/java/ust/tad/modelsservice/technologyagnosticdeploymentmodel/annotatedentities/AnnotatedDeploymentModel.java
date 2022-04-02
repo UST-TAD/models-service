@@ -7,19 +7,20 @@ import java.util.UUID;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.DeploymentModel;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.ModelEntity;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 
 @Document(collection = "technologyagnosticdeploymentmodels")
 public class AnnotatedDeploymentModel extends DeploymentModel{
 
-    private UUID transformationProcessId = UUID.randomUUID();
+    private UUID transformationProcessId;
     
 
     public AnnotatedDeploymentModel() {
         super();
     }
 
-    public AnnotatedDeploymentModel(List<Property> properties, List<UUID> modelEntities, UUID transformationProcessId) {
+    public AnnotatedDeploymentModel(List<Property> properties, List<ModelEntity> modelEntities, UUID transformationProcessId) {
         super(properties, modelEntities);
         this.transformationProcessId = transformationProcessId;
     }

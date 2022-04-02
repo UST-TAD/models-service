@@ -3,12 +3,7 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 import java.net.URI;
 import java.util.Objects;
 
-import org.springframework.data.annotation.Id;
-
 public class Artifact {
-
-    @Id
-    private String id;
 
     private String name;
     

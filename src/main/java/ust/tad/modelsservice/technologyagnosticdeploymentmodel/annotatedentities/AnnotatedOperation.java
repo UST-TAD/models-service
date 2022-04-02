@@ -3,12 +3,9 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentitie
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Artifact;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Operation;
 
-@Document(collection = "operations")
 public class AnnotatedOperation extends Operation{
 
     private Confidence confidence;

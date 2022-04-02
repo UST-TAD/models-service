@@ -3,17 +3,10 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-
 public class Operation {
-
-    @Id
-    private String id;
 
     private String name;
 
-    @DBRef
     private List<Artifact> artifacts;
 
 

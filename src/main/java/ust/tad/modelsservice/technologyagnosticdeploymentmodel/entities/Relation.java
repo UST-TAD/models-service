@@ -2,13 +2,15 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidRelationException;
 
 public class Relation extends ModelElement{
+
+    @DBRef
+    private RelationType type;
 
     @DBRef
     private Component source;
@@ -24,14 +26,23 @@ public class Relation extends ModelElement{
         super();
     }
 
-    public Relation(String description, List<Property> properties, List<Operation> operations, UUID type, Component source, Component target) throws InvalidRelationException {
-        super(description, properties, operations, type);
+    public Relation(String name, String description, List<Property> properties, List<Operation> operations, RelationType type, Component source, Component target) throws InvalidRelationException {
+        super(name, description, properties, operations);
         if(areSourceAndTargetEqual(source, target)) {
             throw new InvalidRelationException(INVALIDRELATIONEXCEPTIONMESSAGE);
         } else {
+            this.type = type;
             this.source = source;
             this.target = target;
         }
+    }
+    
+    public RelationType getType() {
+        return this.type;
+    }
+
+    public void setType(RelationType type) {
+        this.type = type;
     }
 
     public Component getSource() {
@@ -58,6 +69,11 @@ public class Relation extends ModelElement{
         }
     }
 
+    public Relation type(RelationType type) {
+        setType(type);
+        return this;
+    }
+
     public Relation source(Component source) throws InvalidRelationException {
         setSource(source);
         return this;
@@ -76,24 +92,26 @@ public class Relation extends ModelElement{
             return false;
         }
         Relation relation = (Relation) o;
-        return Objects.equals(getId(), relation.getId()) 
+        return Objects.equals(getId(), relation.getId())
+            && Objects.equals(getName(), relation.getName()) 
             && Objects.equals(getDescription(), relation.getDescription()) 
             && Objects.equals(getProperties(), relation.getProperties()) 
             && Objects.equals(getOperations(), relation.getOperations())
-            && Objects.equals(getType(), relation.getType())
+            && Objects.equals(type, relation.type)
             && Objects.equals(source, relation.source) 
             && Objects.equals(target, relation.target);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDescription(), getProperties(), getOperations(), getType(), source, target);
+        return Objects.hash(getId(), getName(), getDescription(), getProperties(), getOperations(), type, source, target);
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
             ", type='" + getType() + "'" +            
             ", description='" + getDescription() + "'" +
             ", properties='" + getProperties() + "'" +

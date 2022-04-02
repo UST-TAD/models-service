@@ -2,39 +2,50 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public abstract class ModelEntity {
     
     @Id
-    private UUID id = UUID.randomUUID();
+    private ObjectId id;
+
+    private String name;
 
     private String description;
 
     private List<Property> properties;
 
-    @DBRef
     private List<Operation> operations;
-
+    
 
     public ModelEntity() {
+        this.id = new ObjectId();
     }
 
-    public ModelEntity(String description, List<Property> properties, List<Operation> operations) {
+    public ModelEntity(String name, String description, List<Property> properties, List<Operation> operations) {
+        this.id = new ObjectId();
+        this.name = name;
         this.description = description;
         this.properties = properties;
         this.operations = operations;
     }
 
-    public UUID getId() {
+    public ObjectId getId() {
         return this.id;
     }
 
-    public void setId(UUID id) {
+    public void setId(ObjectId id) {
         this.id = id;
+    }    
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
@@ -61,8 +72,13 @@ public abstract class ModelEntity {
         this.operations = operations;
     }
 
-    public ModelEntity id(UUID id) {
+    public ModelEntity id(ObjectId id) {
         setId(id);
+        return this;
+    }
+    
+    public ModelEntity name(String name) {
+        setName(name);
         return this;
     }
 
@@ -89,18 +105,19 @@ public abstract class ModelEntity {
             return false;
         }
         ModelEntity modelEntity = (ModelEntity) o;
-        return Objects.equals(id, modelEntity.id) && Objects.equals(description, modelEntity.description) && Objects.equals(properties, modelEntity.properties) && Objects.equals(operations, modelEntity.operations);
+        return Objects.equals(id, modelEntity.id) && Objects.equals(name, modelEntity.name) && Objects.equals(description, modelEntity.description) && Objects.equals(properties, modelEntity.properties) && Objects.equals(operations, modelEntity.operations);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, properties, operations);
+        return Objects.hash(id, name, description, properties, operations);
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", properties='" + getProperties() + "'" +
             ", operations='" + getOperations() + "'" +

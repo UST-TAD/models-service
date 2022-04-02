@@ -2,16 +2,13 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentitie
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
-
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Operation;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Relation;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.RelationType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidRelationException;
 
-@Document(collection = "relations")
 public class AnnotatedRelation extends Relation{
 
     private Confidence confidence;
@@ -21,8 +18,8 @@ public class AnnotatedRelation extends Relation{
         super();
     }
 
-    public AnnotatedRelation(String description, List<Property> properties, List<Operation> operations, UUID type, AnnotatedComponent source, AnnotatedComponent target, Confidence confidence) throws InvalidRelationException {
-        super(description, properties, operations, type, source, target);
+    public AnnotatedRelation(String name, String description, List<Property> properties, List<Operation> operations, RelationType type, AnnotatedComponent source, AnnotatedComponent target, Confidence confidence) throws InvalidRelationException {
+        super(name, description, properties, operations, type, source, target);
         this.confidence = confidence;
     }
 
@@ -48,6 +45,7 @@ public class AnnotatedRelation extends Relation{
         }
         AnnotatedRelation annotatedRelation = (AnnotatedRelation) o;
         return Objects.equals(getId(), annotatedRelation.getId()) 
+            && Objects.equals(getName(), annotatedRelation.getName()) 
             && Objects.equals(getDescription(), annotatedRelation.getDescription()) 
             && Objects.equals(getProperties(), annotatedRelation.getProperties()) 
             && Objects.equals(getOperations(), annotatedRelation.getOperations())
@@ -59,13 +57,14 @@ public class AnnotatedRelation extends Relation{
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getDescription(), getProperties(), getOperations(), getType(), getSource(), getTarget(), confidence);
+        return Objects.hash(getId(), getName(), getDescription(), getProperties(), getOperations(), getType(), getSource(), getTarget(), confidence);
     }
 
     @Override
     public String toString() {
         return "{" +
             " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
             ", type='" + getType() + "'" +            
             ", description='" + getDescription() + "'" +
             ", properties='" + getProperties() + "'" +

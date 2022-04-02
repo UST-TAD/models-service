@@ -1,4 +1,4 @@
-package ust.tad.modelsservice.technologyagnosticdeploymentmodel.repositories;
+package ust.tad.modelsservice.technologyagnosticdeploymentmodel;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
