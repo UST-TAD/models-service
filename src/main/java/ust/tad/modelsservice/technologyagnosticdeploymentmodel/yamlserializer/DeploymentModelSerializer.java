@@ -6,20 +6,20 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedDeploymentModel;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.DeploymentModel;
 
-public class DeploymentModelSerializer extends StdSerializer<AnnotatedDeploymentModel>{
+public class DeploymentModelSerializer extends StdSerializer<DeploymentModel>{
     
     public DeploymentModelSerializer() {
         this(null);
     }
   
-    public DeploymentModelSerializer(Class<AnnotatedDeploymentModel> t) {
+    public DeploymentModelSerializer(Class<DeploymentModel> t) {
         super(t);
     }
 
     @Override
-    public void serialize(AnnotatedDeploymentModel value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(DeploymentModel value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();       
         provider.defaultSerializeField("properties", value.getProperties(), gen);
         provider.defaultSerializeField("components", value.getComponents(), gen);

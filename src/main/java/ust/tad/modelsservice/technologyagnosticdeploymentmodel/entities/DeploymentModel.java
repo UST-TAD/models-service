@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.DeploymentModelSerializer;
+
+@JsonSerialize(using = DeploymentModelSerializer.class)
 public class DeploymentModel {
 
     private List<Property> properties = new ArrayList<>();

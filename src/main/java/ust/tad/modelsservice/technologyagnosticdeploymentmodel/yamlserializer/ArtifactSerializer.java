@@ -6,20 +6,20 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedArtifact;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Artifact;
 
-public class ArtifactSerializer extends StdSerializer<AnnotatedArtifact>{
+public class ArtifactSerializer extends StdSerializer<Artifact>{
 
     public ArtifactSerializer() {
         this(null);
     }
 
-    public ArtifactSerializer(Class<AnnotatedArtifact> t) {
+    public ArtifactSerializer(Class<Artifact> t) {
         super(t);
     }
 
     @Override
-    public void serialize(AnnotatedArtifact value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+    public void serialize(Artifact value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
         gen.writeObjectFieldStart(value.getName());
 
