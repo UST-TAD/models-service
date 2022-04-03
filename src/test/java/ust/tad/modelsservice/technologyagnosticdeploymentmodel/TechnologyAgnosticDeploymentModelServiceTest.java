@@ -25,6 +25,9 @@ public class TechnologyAgnosticDeploymentModelServiceTest {
     @Autowired
     TechnologyAgnosticDeploymentModelService service;
 
+    @Autowired
+    AnnotatedDeploymentModelRepository repository;
+
     @Test
     public void initializeTechnologyAgnosticDeploymentModel_created() throws IOException, URISyntaxException {        
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
@@ -39,6 +42,14 @@ public class TechnologyAgnosticDeploymentModelServiceTest {
         String yaml = mapper.writeValueAsString(dm);
 
         assertEquals(expected, yaml);
+    }
+
+    @Test
+    public void exportTechnologyAgnosticDeploymentModel_exported() {
+        AnnotatedDeploymentModel annotatedDeploymentModel = CreateDeploymentModelsHelper.createExampleEDMM();
+        AnnotatedDeploymentModel annotatedDeploymentModelSaved = repository.save(annotatedDeploymentModel);
+
+        assertDoesNotThrow(() -> service.exportTechnologyAgnosticDeploymentModel(annotatedDeploymentModelSaved.getTransformationProcessId()));
     }
 
 }
