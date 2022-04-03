@@ -3,8 +3,13 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.RelationTypeSerializer;
+
+@JsonSerialize(using = RelationTypeSerializer.class)
 public class RelationType extends ModelElementType{
 
     @DBRef

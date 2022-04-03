@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class TechnologySpecificDeploymentModelController {
 
     @Autowired
-    private TechnologySpecificDeploymentModelService annotatedDeploymentModelService;
+    private TechnologySpecificDeploymentModelService technologySpecificDeploymentModelService;
 
     //TODO Lookup how to correctly return
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public String initializeAnnotatedDeploymentModel(
+    public String initializeTechnologySpecificDeploymentModel(
         @RequestBody InitializeTechnologySpecificDeploymentModelRequest initializeTechnologySpecificDeploymentModelRequest) {
         try {
-            annotatedDeploymentModelService.createTechnologySpecificDeploymentModel(
+            technologySpecificDeploymentModelService.createTechnologySpecificDeploymentModel(
                 initializeTechnologySpecificDeploymentModelRequest.getTransformationProcessId(),
                 initializeTechnologySpecificDeploymentModelRequest.getTechnology(),
                 initializeTechnologySpecificDeploymentModelRequest.getCommands(),

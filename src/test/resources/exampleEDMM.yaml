@@ -1,0 +1,85 @@
+---
+properties:
+  - testProperty: "testValue"
+components:
+  - ComponentOne:
+      type: "TypeOne"
+      description: "first component"
+      properties:
+        - testProperty: "value one"
+      operations:
+        - Create:
+            artifatcs:
+              - Create Script:
+                  type: "Shellscript"
+                  fileURI: "file://path/create.sh"
+      artifatcs:
+        - MyImage1:
+            type: "Docker Image"
+            fileURI: "http://dockerhub.com/myimage1"
+  - ComponentTwo:
+      type: "TypeTwo"
+      description: "second component"
+      properties:
+        - testProperty: "value two"
+      operations:
+        - Create:
+            artifatcs:
+              - Create Script:
+                  type: "Shellscript"
+                  fileURI: "file://path/create.sh"
+      artifatcs:
+        - MyImage2:
+            type: "Docker Image"
+            fileURI: "http://dockerhub.com/myimage2"
+relations:
+  - ComponentOneConnectsToComponentTwo:
+      type: "ConnectsTo"
+      description: "relation between component one and two"
+      source: "ComponentOne"
+      target: "ComponentTwo"
+      properties:
+        - testProperty: "value relation"
+      operations: []
+component_types:
+  - BaseType:
+      extends: "-"
+      description: "This is the base type"
+      properties: []
+      operations: []
+  - TypeOne:
+      extends: "BaseType"
+      description: "type one"
+      properties:
+        - testProperty:
+            type: "STRING"
+            required: true
+            default_value: "testValue"
+      operations:
+        - Create: "~"
+  - TypeTwo:
+      extends: "BaseType"
+      description: "type two"
+      properties:
+        - testProperty:
+            type: "STRING"
+            required: true
+            default_value: "testValue"
+      operations:
+        - Create: "~"
+relation_types:
+  - DependsOn:
+      extends: "-"
+      description: "generic relation type"
+      properties: []
+      operations: []
+  - HostedOn:
+      extends: "DependsOn"
+      description: "hosted on relation"
+      properties: []
+      operations: []
+  - ConnectsTo:
+      extends: "DependsOn"
+      description: "connects to relation"
+      properties: []
+      operations: []

@@ -1,5 +1,6 @@
 package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,7 +8,7 @@ public class Operation {
 
     private String name;
 
-    private List<Artifact> artifacts;
+    private List<Artifact> artifacts = new ArrayList<>();
 
 
     public Operation() {

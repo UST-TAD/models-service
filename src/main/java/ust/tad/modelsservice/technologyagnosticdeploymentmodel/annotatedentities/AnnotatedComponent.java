@@ -3,12 +3,16 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentitie
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Artifact;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Component;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.ComponentType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Operation;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.ComponentSerializer;
 
+@JsonSerialize(using = ComponentSerializer.class)
 public class AnnotatedComponent extends Component{
 
     private Confidence confidence;

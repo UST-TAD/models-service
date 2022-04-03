@@ -3,8 +3,12 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentitie
 import java.net.URI;
 import java.util.Objects;
 
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Artifact;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Artifact;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.ArtifactSerializer;
+
+@JsonSerialize(using = ArtifactSerializer.class)
 public class AnnotatedArtifact extends Artifact{
 
     private Confidence confidence;

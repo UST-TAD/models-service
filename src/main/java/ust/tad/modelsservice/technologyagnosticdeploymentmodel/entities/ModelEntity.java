@@ -1,5 +1,6 @@
 package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,23 +10,21 @@ import org.springframework.data.annotation.Id;
 public abstract class ModelEntity {
     
     @Id
-    private ObjectId id;
+    private ObjectId id = new ObjectId();
 
     private String name;
 
     private String description;
 
-    private List<Property> properties;
+    private List<Property> properties = new ArrayList<>();
 
-    private List<Operation> operations;
+    private List<Operation> operations = new ArrayList<>();
     
 
     public ModelEntity() {
-        this.id = new ObjectId();
     }
 
     public ModelEntity(String name, String description, List<Property> properties, List<Operation> operations) {
-        this.id = new ObjectId();
         this.name = name;
         this.description = description;
         this.properties = properties;

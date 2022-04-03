@@ -3,16 +3,18 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,56 +28,52 @@ public class AnnotatedDeploymentModelRepositoryTest {
     AnnotatedDeploymentModelRepository deploymentModelRepository;
     
     @Test
-    public void createAnnotatedDeploymentModel_created() {
-        
-        final Logger LOG =
-            LoggerFactory.getLogger(AnnotatedDeploymentModelRepositoryTest.class);
+    public void createAnnotatedDeploymentModel_created() throws IOException {     
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
+        Path filePath = Path.of("src/test/resources/exampleEDMM.yaml");
+        String expected = Files.readString(filePath);
 
         AnnotatedProperty property = assertDoesNotThrow(() -> new AnnotatedProperty("testProperty", PropertyType.STRING, true, "testValue", null));
         
         AnnotatedArtifact artifactForOperation = assertDoesNotThrow(() -> new AnnotatedArtifact("Create Script", "Shellscript", new URI("file://path/create.sh"), null));
 
         AnnotatedOperation operation = new AnnotatedOperation("Create", List.of(artifactForOperation), null);
-        AnnotatedOperation operationDef = new AnnotatedOperation("Create", null, null);
+        AnnotatedOperation operationDef = new AnnotatedOperation("Create", List.of(), null);
 
-        ComponentType baseType = new ComponentType("BaseType", "This is the base type", null, null, null);
+        ComponentType baseType = new ComponentType("BaseType", "This is the base type", List.of(), List.of(), null);
 
         ComponentType componentTypeOne = new ComponentType("TypeOne", "type one", List.of(property), List.of(operationDef), baseType);
 
-        AnnotatedProperty propertyOne = property;
-        assertDoesNotThrow(() -> propertyOne.setValue("value one"));
+        AnnotatedProperty propertyOne = assertDoesNotThrow(() -> new AnnotatedProperty("testProperty", PropertyType.STRING, true, "value one", null));
         AnnotatedArtifact artifactForComponentOne = assertDoesNotThrow(() -> new AnnotatedArtifact("MyImage1", "Docker Image", new URI("http://dockerhub.com/myimage1"), null));
         AnnotatedComponent componentOne = new AnnotatedComponent("ComponentOne", "first component", List.of(propertyOne), List.of(operation), componentTypeOne, List.of(artifactForComponentOne), null);
 
         ComponentType componentTypeTwo = new ComponentType("TypeTwo", "type two", List.of(property), List.of(operationDef), baseType);
 
-        AnnotatedProperty propertyTwo = property;
-        assertDoesNotThrow(() -> propertyTwo.setValue("value two"));
+        AnnotatedProperty propertyTwo = assertDoesNotThrow(() -> new AnnotatedProperty("testProperty", PropertyType.STRING, true, "value two", null));
         AnnotatedArtifact artifactForComponentTwo = assertDoesNotThrow(() -> new AnnotatedArtifact("MyImage2", "Docker Image", new URI("http://dockerhub.com/myimage2"), null));
         AnnotatedComponent componentTwo = new AnnotatedComponent("ComponentTwo", "second component", List.of(propertyTwo), List.of(operation), componentTypeTwo, List.of(artifactForComponentTwo), null);
 
-        RelationType dependsOn = new RelationType("DependsOn", "generic relation type", null, null, null);
-        RelationType hostedOn = new RelationType("HostedOn", "hosted on relation", null, null, dependsOn);        
-        RelationType connectsTo = new RelationType("ConnectsTo", "connects to relation", null, null, dependsOn);
+        RelationType dependsOn = new RelationType("DependsOn", "generic relation type", List.of(), List.of(), null);
+        RelationType hostedOn = new RelationType("HostedOn", "hosted on relation", List.of(), List.of(), dependsOn);        
+        RelationType connectsTo = new RelationType("ConnectsTo", "connects to relation", List.of(), List.of(), dependsOn);
 
-        AnnotatedProperty propertyRelation = property;
-        assertDoesNotThrow(() -> propertyRelation.setValue("value relation"));
-        AnnotatedRelation relation = assertDoesNotThrow(() -> new AnnotatedRelation("ComponentOneConnectsToComponentTwo", "relation between component one and two", List.of(propertyRelation), null, connectsTo, componentOne, componentTwo, null));
+        AnnotatedProperty propertyRelation = assertDoesNotThrow(() -> new AnnotatedProperty("testProperty", PropertyType.STRING, true, "value relation", null));
+        AnnotatedRelation relation = assertDoesNotThrow(() -> new AnnotatedRelation("ComponentOneConnectsToComponentTwo", "relation between component one and two", List.of(propertyRelation), List.of(), connectsTo, componentOne, componentTwo, null));
 
         AnnotatedDeploymentModel annotatedDeploymentModel = new AnnotatedDeploymentModel();
         annotatedDeploymentModel.setTransformationProcessId(UUID.randomUUID());
         annotatedDeploymentModel.setProperties(List.of(property));
-        annotatedDeploymentModel.setModelEntities(List.of(baseType, componentTypeOne, 
-            componentTypeTwo, dependsOn, hostedOn, connectsTo, 
-            componentOne, componentTwo, relation));
+        annotatedDeploymentModel.setComponents(List.of(componentOne, componentTwo));
+        annotatedDeploymentModel.setRelations(List.of(relation));
+        annotatedDeploymentModel.setComponentTypes(List.of(baseType, componentTypeOne, componentTypeTwo));
+        annotatedDeploymentModel.setRelationTypes(List.of(dependsOn, hostedOn, connectsTo));
 
         AnnotatedDeploymentModel annotatedDeploymentModelSaved = deploymentModelRepository.save(annotatedDeploymentModel);
     
         assertEquals(annotatedDeploymentModel, annotatedDeploymentModelSaved);
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = assertDoesNotThrow(() -> ow.writeValueAsString(annotatedDeploymentModelSaved));
-
-        LOG.info(json);
+        String yaml = assertDoesNotThrow(() -> mapper.writeValueAsString(annotatedDeploymentModelSaved));
+        assertEquals(expected, yaml);
     }
 }

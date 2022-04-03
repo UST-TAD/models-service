@@ -2,10 +2,14 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentitie
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.PropertyType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidPropertyValueException;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.PropertySerializer;
 
+@JsonSerialize(using = PropertySerializer.class)
 public class AnnotatedProperty extends Property{
 
     private Confidence confidence;

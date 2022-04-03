@@ -2,8 +2,12 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 
 import java.util.Objects;
 
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidPropertyValueException;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidPropertyValueException;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.PropertySerializer;
+
+@JsonSerialize(using = PropertySerializer.class)
 public class Property {
 
     private String key;

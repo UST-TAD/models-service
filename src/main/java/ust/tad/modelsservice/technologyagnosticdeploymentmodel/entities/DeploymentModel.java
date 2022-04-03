@@ -1,20 +1,31 @@
 package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class DeploymentModel {
 
-    private List<Property> properties;
+    private List<Property> properties = new ArrayList<>();
 
-    private List<ModelEntity> modelEntities;
+    private List<Component> components = new ArrayList<>();
+
+    private List<Relation> relations = new ArrayList<>();
+
+    private List<ComponentType> componentTypes = new ArrayList<>();
+
+    private List<RelationType> relationTypes = new ArrayList<>();
+
 
     public DeploymentModel() {
     }
 
-    public DeploymentModel(List<Property> properties, List<ModelEntity> modelEntities) {
+    public DeploymentModel(List<Property> properties, List<Component> components, List<Relation> relations, List<ComponentType> componentTypes, List<RelationType> relationTypes) {
         this.properties = properties;
-        this.modelEntities = modelEntities;
+        this.components = components;
+        this.relations = relations;
+        this.componentTypes = componentTypes;
+        this.relationTypes = relationTypes;
     }
 
     public List<Property> getProperties() {
@@ -25,12 +36,36 @@ public class DeploymentModel {
         this.properties = properties;
     }
 
-    public List<ModelEntity> getModelEntities() {
-        return this.modelEntities;
+    public List<Component> getComponents() {
+        return this.components;
     }
 
-    public void setModelEntities(List<ModelEntity> modelEntities) {
-        this.modelEntities = modelEntities;
+    public void setComponents(List<Component> components) {
+        this.components = components;
+    }
+
+    public List<Relation> getRelations() {
+        return this.relations;
+    }
+
+    public void setRelations(List<Relation> relations) {
+        this.relations = relations;
+    }
+
+    public List<ComponentType> getComponentTypes() {
+        return this.componentTypes;
+    }
+
+    public void setComponentTypes(List<ComponentType> componentTypes) {
+        this.componentTypes = componentTypes;
+    }
+
+    public List<RelationType> getRelationTypes() {
+        return this.relationTypes;
+    }
+
+    public void setRelationTypes(List<RelationType> relationTypes) {
+        this.relationTypes = relationTypes;
     }
 
     public DeploymentModel properties(List<Property> properties) {
@@ -38,8 +73,23 @@ public class DeploymentModel {
         return this;
     }
 
-    public DeploymentModel modelEntities(List<ModelEntity> modelEntities) {
-        setModelEntities(modelEntities);
+    public DeploymentModel components(List<Component> components) {
+        setComponents(components);
+        return this;
+    }
+
+    public DeploymentModel relations(List<Relation> relations) {
+        setRelations(relations);
+        return this;
+    }
+
+    public DeploymentModel componentTypes(List<ComponentType> componentTypes) {
+        setComponentTypes(componentTypes);
+        return this;
+    }
+
+    public DeploymentModel relationTypes(List<RelationType> relationTypes) {
+        setRelationTypes(relationTypes);
         return this;
     }
 
@@ -52,19 +102,25 @@ public class DeploymentModel {
         }
         DeploymentModel deploymentModel = (DeploymentModel) o;
         return Objects.equals(properties, deploymentModel.properties) 
-            && Objects.equals(modelEntities, deploymentModel.modelEntities);
+            && Objects.equals(components, deploymentModel.components) 
+            && Objects.equals(relations, deploymentModel.relations) 
+            && Objects.equals(componentTypes, deploymentModel.componentTypes) 
+            && Objects.equals(relationTypes, deploymentModel.relationTypes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(properties, modelEntities);
+        return Objects.hash(properties, components, relations, componentTypes, relationTypes);
     }
 
     @Override
     public String toString() {
         return "{" +
             " properties='" + getProperties() + "'" +
-            ", modelEntities='" + getModelEntities() + "'" +
+            ", components='" + getComponents() + "'" +
+            ", relations='" + getRelations() + "'" +
+            ", componentTypes='" + getComponentTypes() + "'" +
+            ", relationTypes='" + getRelationTypes() + "'" +
             "}";
     }
     
