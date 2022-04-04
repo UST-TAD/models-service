@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Component;
@@ -20,6 +21,7 @@ import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.De
 @JsonSerialize(using = DeploymentModelSerializer.class)
 public class AnnotatedDeploymentModel extends DeploymentModel{
 
+    @Indexed(unique=true)
     private UUID transformationProcessId;
     
 

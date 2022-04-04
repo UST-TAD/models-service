@@ -1,6 +1,7 @@
 package ust.tad.modelsservice.technologyagnosticdeploymentmodel;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.UUID;
@@ -18,6 +19,7 @@ import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Componen
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.PropertyType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.RelationType;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.EntityNotFoundException;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidPropertyValueException;
 
 @Service
@@ -31,11 +33,11 @@ public class TechnologyAgnosticDeploymentModelService {
 
     /**
      * Initialize a technology-agnostic deployment model which only holds the base component types.
-     * An entity of type AnnotatedDeploymentModel is created and saved in the models database.
+     * Creates an entity of type AnnotatedDeploymentModel and saves it in the models database.
      * 
      * @param transformationProcessId
      * @return the initialized technology-agnostic deployment model.
-     * @throws InvalidPropertyValueException
+     * @throws InvalidPropertyValueException 
      */
     public AnnotatedDeploymentModel initializeTechnologyAgnosticDeploymentModel(UUID transformationProcessId) throws InvalidPropertyValueException {
         return repository.save(
@@ -53,17 +55,33 @@ public class TechnologyAgnosticDeploymentModelService {
      * The output directory is specified by the environment variable tadm.output.directory in the application.properties file.
      * 
      * @param transformationProcessId
-     * @throws Exception if there is none or more than one technology-agnostic deployment model with the given transformationProcessId.
+     * @return the absolute path and file name containing the exported technology-agnostic deployment model.
+     * @throws IOException if there was an error with the creation of the output file.
+     * @throws Exception if there is no technology-agnostic deployment model with the given transformationProcessId.
      */
-    public void exportTechnologyAgnosticDeploymentModel(UUID transformationProcessId) throws Exception {
+    public String exportTechnologyAgnosticDeploymentModel(UUID transformationProcessId) throws EntityNotFoundException, IOException {
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
+        File outputFile = Path.of(outputPath,transformationProcessId.toString()+".yaml").toFile();
+        AnnotatedDeploymentModel tadm = getTechnologyAgnosticDeploymentModelByTransformationProcessId(transformationProcessId);
+        mapper.writeValue(outputFile, tadm);
+        return outputFile.getAbsolutePath();
+    }
+
+    /**
+     * Retrieves a technology-agnostic deployment model, identified by the transformationProcessId.
+     * 
+     * @param transformationProcessId
+     * @return the technology-agnostic deployment model.
+     * @throws EntityNotFoundException if there is no technology-agnostic deployment model with the given transformationProcessId.
+     */
+    public AnnotatedDeploymentModel getTechnologyAgnosticDeploymentModelByTransformationProcessId(UUID transformationProcessId) throws EntityNotFoundException {
         List<AnnotatedDeploymentModel> annotatedDeploymentModels = repository.findByTransformationProcessId(transformationProcessId);
-        if(annotatedDeploymentModels.size() != 1) {
-            throw new Exception("Invalid tranformation process id");
+        if(annotatedDeploymentModels.isEmpty()) {
+            throw new EntityNotFoundException(
+                String.format("Could not find technology-agnostic deployment model with the transformation process id '%s'",
+                transformationProcessId));
         } else {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
-            File outputFile = Path.of(outputPath,transformationProcessId.toString()+".yaml").toFile();
-            AnnotatedDeploymentModel tadm = annotatedDeploymentModels.get(0);
-            mapper.writeValue(outputFile, tadm);
+            return annotatedDeploymentModels.get(0);
         }
     }
 

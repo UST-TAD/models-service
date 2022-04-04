@@ -2,10 +2,13 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -36,5 +39,14 @@ public class AnnotatedDeploymentModelRepositoryTest {
 
         String yaml = assertDoesNotThrow(() -> mapper.writeValueAsString(annotatedDeploymentModelSaved));
         assertEquals(expected, yaml);
+    }
+
+    @Test
+    public void createAnnotatedDeploymentModelWithSameTransformationProcessId_forbidden() { 
+        UUID transformationProcessId = UUID.randomUUID();   
+        AnnotatedDeploymentModel first = new AnnotatedDeploymentModel(List.of(), List.of(), List.of(), List.of(), List.of(), transformationProcessId);
+        AnnotatedDeploymentModel second = new AnnotatedDeploymentModel(List.of(), List.of(), List.of(), List.of(), List.of(), transformationProcessId);
+        deploymentModelRepository.save(first);    
+        assertThrows(Exception.class, () -> deploymentModelRepository.save(second));
     }
 }
