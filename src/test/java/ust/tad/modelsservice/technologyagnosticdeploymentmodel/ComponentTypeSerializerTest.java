@@ -7,8 +7,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +15,7 @@ import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedProperty;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.ComponentType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.PropertyType;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.YamlObjectMapper;
 
 @SpringBootTest
 public class ComponentTypeSerializerTest {
@@ -33,7 +32,7 @@ public class ComponentTypeSerializerTest {
 
         ComponentType baseType = new ComponentType("BaseType", "This is the base type", List.of(), List.of(), null);
     
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
+        ObjectMapper mapper = YamlObjectMapper.createYamlObjectMapper();
         String yaml = mapper.writeValueAsString(baseType);
     
         assertEquals(expected, yaml);
@@ -60,7 +59,7 @@ public class ComponentTypeSerializerTest {
         ComponentType baseType = new ComponentType("BaseType", "This is the base type", List.of(), List.of(), null);
         ComponentType componentTypeOne = new ComponentType("TypeOne", "type one", List.of(property), List.of(operationDef), baseType);
 
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
+        ObjectMapper mapper = YamlObjectMapper.createYamlObjectMapper();
         String yaml = mapper.writeValueAsString(componentTypeOne);
 
         assertEquals(expected, yaml);

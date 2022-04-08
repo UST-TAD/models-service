@@ -4,13 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.ComponentSerializer;
-
-@JsonSerialize(using = ComponentSerializer.class)
 public class Component extends ModelElement{
 
     @DBRef

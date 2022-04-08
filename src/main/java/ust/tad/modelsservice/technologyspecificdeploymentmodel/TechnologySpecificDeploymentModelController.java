@@ -1,8 +1,12 @@
 package ust.tad.modelsservice.technologyspecificdeploymentmodel;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +40,22 @@ public class TechnologySpecificDeploymentModelController {
         } catch (InvalidNumberOfLinesException | InvalidNumberOfContentException e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Initialization of technology-specific deployment model failed", e);
+        }
+    }
+
+    /**
+     * Retrieves a technology-specific deployment model, identified by the transformationProcessId.
+     * 
+     * @param transformationProcessId
+     * @return the technology-specific deployment model with HttpStatus.OK.
+     */
+    @GetMapping("/{transformationProcessId}")
+    public ResponseEntity<TechnologySpecificDeploymentModel> getByTransformationProcessId(@PathVariable UUID transformationProcessId) {
+        try {
+            return new ResponseEntity<>(technologySpecificDeploymentModelService.getTechnologySpecificDeploymentModelByTransformationProcessId(transformationProcessId), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 

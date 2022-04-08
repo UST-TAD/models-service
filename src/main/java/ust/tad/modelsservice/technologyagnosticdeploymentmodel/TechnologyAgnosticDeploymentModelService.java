@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 
@@ -14,13 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedDeploymentModel;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.ComponentType;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.PropertyType;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.RelationType;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.*;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.*;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.EntityNotFoundException;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidPropertyValueException;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.*;
 
 @Service
 public class TechnologyAgnosticDeploymentModelService {
@@ -60,7 +59,7 @@ public class TechnologyAgnosticDeploymentModelService {
      * @throws Exception if there is no technology-agnostic deployment model with the given transformationProcessId.
      */
     public String exportTechnologyAgnosticDeploymentModel(UUID transformationProcessId) throws EntityNotFoundException, IOException {
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
+        ObjectMapper mapper = YamlObjectMapper.createYamlObjectMapper();
         File outputFile = Path.of(outputPath,transformationProcessId.toString()+".yaml").toFile();
         AnnotatedDeploymentModel tadm = getTechnologyAgnosticDeploymentModelByTransformationProcessId(transformationProcessId);
         mapper.writeValue(outputFile, tadm);

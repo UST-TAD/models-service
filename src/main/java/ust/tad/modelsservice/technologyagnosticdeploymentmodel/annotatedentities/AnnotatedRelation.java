@@ -3,16 +3,12 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentitie
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Operation;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Relation;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.RelationType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidRelationException;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.RelationSerializer;
 
-@JsonSerialize(using = RelationSerializer.class)
 public class AnnotatedRelation extends Relation{
 
     private Confidence confidence;

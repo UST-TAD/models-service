@@ -3,14 +3,10 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.InvalidRelationException;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.RelationSerializer;
 
-@JsonSerialize(using = RelationSerializer.class)
 public class Relation extends ModelElement{
 
     @DBRef

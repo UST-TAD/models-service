@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.OperationSerializer;
-
-@JsonSerialize(using = OperationSerializer.class)
 public class Operation {
 
     private String name;

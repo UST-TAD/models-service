@@ -3,11 +3,6 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 import java.net.URI;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.ArtifactSerializer;
-
-@JsonSerialize(using = ArtifactSerializer.class)
 public class Artifact {
 
     private String name;

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,10 +13,8 @@ import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Deployme
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Relation;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.RelationType;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.DeploymentModelSerializer;
 
 @Document(collection = "technologyagnosticdeploymentmodels")
-@JsonSerialize(using = DeploymentModelSerializer.class)
 public class AnnotatedDeploymentModel extends DeploymentModel{
 
     @Indexed(unique=true)

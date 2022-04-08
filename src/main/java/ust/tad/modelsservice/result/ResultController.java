@@ -29,7 +29,7 @@ public class ResultController {
      * @param transformationProcessId
      * @return the absolute path where the technology-agnostic deployment model was exported to with HttpStatus.OK.
      */
-    @GetMapping(value = "/{transformationProcessId}", consumes = "application/json", produces = "application/json")
+    @GetMapping(value = "/{transformationProcessId}", produces = "application/json")
     public ResponseEntity<String> getResult(@PathVariable UUID transformationProcessId) {
         try {
             String path = technologyAgnosticDeploymentModelService.exportTechnologyAgnosticDeploymentModel(transformationProcessId);

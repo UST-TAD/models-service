@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Id;
 public abstract class ModelEntity {
     
     @Id
-    private ObjectId id = new ObjectId();
+    private String id = new ObjectId().toString();
 
     private String name;
 
@@ -21,21 +21,21 @@ public abstract class ModelEntity {
     private List<Operation> operations = new ArrayList<>();
     
 
-    public ModelEntity() {
+    protected ModelEntity() {
     }
 
-    public ModelEntity(String name, String description, List<Property> properties, List<Operation> operations) {
+    protected ModelEntity(String name, String description, List<Property> properties, List<Operation> operations) {
         this.name = name;
         this.description = description;
         this.properties = properties;
         this.operations = operations;
     }
 
-    public ObjectId getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(ObjectId id) {
+    public void setId(String id) {
         this.id = id;
     }    
 
@@ -71,7 +71,7 @@ public abstract class ModelEntity {
         this.operations = operations;
     }
 
-    public ModelEntity id(ObjectId id) {
+    public ModelEntity id(String id) {
         setId(id);
         return this;
     }

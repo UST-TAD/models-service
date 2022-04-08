@@ -10,14 +10,13 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedDeploymentModel;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.YamlObjectMapper;
 
 @SpringBootTest
 public class TechnologyAgnosticDeploymentModelServiceTest {
@@ -30,7 +29,7 @@ public class TechnologyAgnosticDeploymentModelServiceTest {
 
     @Test
     public void initializeTechnologyAgnosticDeploymentModel_created() throws IOException, URISyntaxException {        
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory().enable(YAMLGenerator.Feature.INDENT_ARRAYS_WITH_INDICATOR));
+        ObjectMapper mapper = YamlObjectMapper.createYamlObjectMapper();
         Path filePath = Path.of("src/test/resources/initialEDMM.yaml");
         String expected = Files.readString(filePath);
 

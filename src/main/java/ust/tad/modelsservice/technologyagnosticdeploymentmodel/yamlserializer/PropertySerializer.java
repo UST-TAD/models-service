@@ -23,11 +23,14 @@ public class PropertySerializer extends StdSerializer<Property>{
         gen.writeStartObject();
         switch(value.getType()) {
             case BOOLEAN:
-                gen.writeBooleanField(value.getKey(), (Boolean) value.getValue());                
+                gen.writeBooleanField(value.getKey(), (Boolean) value.getValue()); 
+                break;               
             case DOUBLE:
-                gen.writeNumberField(value.getKey(), (Double) value.getValue());                
+                gen.writeNumberField(value.getKey(), (Double) value.getValue());  
+                break;              
             case INTEGER:
                 gen.writeNumberField(value.getKey(), (Integer) value.getValue());
+                break;
             case STRING:
                 gen.writeStringField(value.getKey(), value.getValue().toString());
                 break;

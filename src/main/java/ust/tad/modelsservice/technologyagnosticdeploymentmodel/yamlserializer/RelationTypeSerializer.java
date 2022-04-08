@@ -44,11 +44,14 @@ public class RelationTypeSerializer extends StdSerializer<RelationType> {
                 gen.writeBooleanField("required", property.getRequired());
                 switch(property.getType()) {
                     case BOOLEAN:
-                        gen.writeBooleanField("default_value", (Boolean) property.getValue());                
+                        gen.writeBooleanField("default_value", (Boolean) property.getValue());    
+                        break;            
                     case DOUBLE:
-                        gen.writeNumberField("default_value", (Double) property.getValue());                
+                        gen.writeNumberField("default_value", (Double) property.getValue()); 
+                        break;               
                     case INTEGER:
                         gen.writeNumberField("default_value", (Integer) property.getValue());
+                        break;
                     case STRING:
                         gen.writeStringField("default_value", property.getValue().toString());
                         break;
