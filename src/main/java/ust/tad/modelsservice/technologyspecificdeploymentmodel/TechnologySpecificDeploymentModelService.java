@@ -15,6 +15,27 @@ public class TechnologySpecificDeploymentModelService {
     @Autowired
     TechnologySpecificDeploymentModelRepository technologySpecificDeploymentModelRepository;
 
+    /**
+     * Updates a technology-specific deployment model with new information.
+     * 
+     * @param technologySpecificDeploymentModel
+     * @return the updated technology-specific deployment model.
+     */
+    public TechnologySpecificDeploymentModel updateTechnologySpecificDeploymentModel(TechnologySpecificDeploymentModel technologySpecificDeploymentModel) {
+        return technologySpecificDeploymentModelRepository.save(technologySpecificDeploymentModel);
+    }
+
+    /**
+     * Create a new technology-specific deployment model from the given parameters and save it in the models database.
+     * 
+     * @param transformationProcessId
+     * @param technology
+     * @param commands
+     * @param locations
+     * @return the created technology-specific deployment model.
+     * @throws InvalidNumberOfLinesException
+     * @throws InvalidNumberOfContentException
+     */
     public TechnologySpecificDeploymentModel createTechnologySpecificDeploymentModel(
         UUID transformationProcessId, 
         String technology, 
@@ -33,6 +54,12 @@ public class TechnologySpecificDeploymentModelService {
         return technologySpecificDeploymentModelRepository.save(technologySpecificDeploymentModel);
     }
     
+    /**
+     * Get a technology-specific deployment model by the given transformationProcessId.
+     * 
+     * @param transformationProcessId
+     * @return the found technology-specific deployment model.
+     */
     public TechnologySpecificDeploymentModel getTechnologySpecificDeploymentModelByTransformationProcessId(UUID transformationProcessId) {
        List<TechnologySpecificDeploymentModel> technologySpecificDeploymentModels = technologySpecificDeploymentModelRepository.findByTransformationProcessId(transformationProcessId);
        return technologySpecificDeploymentModels.get(0);

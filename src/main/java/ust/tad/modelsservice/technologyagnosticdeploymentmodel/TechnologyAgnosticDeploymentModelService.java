@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.dataformat.yaml.YAMLGenerator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +44,16 @@ public class TechnologyAgnosticDeploymentModelService {
                 createBaseComponentTypes(), 
                 createBaseRelationTypes(), 
                 transformationProcessId));
+    }
+
+    /**
+     * Updates a given technology-agnostic deployment model with new information.
+     * 
+     * @param annotatedDeploymentModel
+     * @return the updated AnnotatedDeploymentModel.
+     */
+    public AnnotatedDeploymentModel updateTechnologyAgnosticDeploymentModel(AnnotatedDeploymentModel annotatedDeploymentModel) {
+        return repository.save(annotatedDeploymentModel);
     }
 
     /**

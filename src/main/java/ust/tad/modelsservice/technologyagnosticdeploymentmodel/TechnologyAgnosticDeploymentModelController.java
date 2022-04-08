@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,16 +24,34 @@ public class TechnologyAgnosticDeploymentModelController {
     TechnologyAgnosticDeploymentModelService technologyAgnosticDeploymentModelService;
 
     /**
+     * Update a technology-agnostic deployment model.
+     * 
+     * @param annotatedDeploymentModel
+     * @return the updated technology-agnostic deployment model with HttpStatus.OK.
+     */
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<AnnotatedDeploymentModel> updateTechnologyAgnosticDeploymentModel(
+        @RequestBody AnnotatedDeploymentModel annotatedDeploymentModel) {
+        try {
+            AnnotatedDeploymentModel tadm = technologyAgnosticDeploymentModelService.updateTechnologyAgnosticDeploymentModel(annotatedDeploymentModel);
+            return new ResponseEntity<>(tadm, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Update of technology-agnostic deployment model failed", e);
+        }
+    }
+
+    /**
      * Initialize a technology-agnostic deployment model which only holds the base component types.
      * 
      * @param transformationProcessId
      * @return the created technology-agnostic deployment model with HttpStatus.CREATED.
      */
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/init", consumes = "application/json", produces = "application/json")
     public ResponseEntity<AnnotatedDeploymentModel> initializeTechnologyAgnosticDeploymentModel(
         @RequestParam(required = true) UUID transformationProcessId) {
         try {
-            AnnotatedDeploymentModel tadm =  technologyAgnosticDeploymentModelService.initializeTechnologyAgnosticDeploymentModel(transformationProcessId);
+            AnnotatedDeploymentModel tadm = technologyAgnosticDeploymentModelService.initializeTechnologyAgnosticDeploymentModel(transformationProcessId);
             return new ResponseEntity<>(tadm, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();

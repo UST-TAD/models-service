@@ -44,6 +44,23 @@ public class TechnologyAgnosticDeploymentModelServiceTest {
     }
 
     @Test
+    public void updateTechnologyAgnosticDeploymentModel_updated() throws IOException, URISyntaxException {        
+        ObjectMapper mapper = YamlObjectMapper.createYamlObjectMapper();
+        Path filePath = Path.of("src/test/resources/exampleEDMM.yaml");
+        String expected = Files.readString(filePath);
+
+        UUID transformationProcessId = UUID.randomUUID();
+        assertDoesNotThrow(() -> 
+            service.initializeTechnologyAgnosticDeploymentModel(transformationProcessId));
+
+        AnnotatedDeploymentModel updatedDM = 
+            service.updateTechnologyAgnosticDeploymentModel(CreateDeploymentModelsHelper.createExampleEDMM());
+
+        String yaml = mapper.writeValueAsString(updatedDM);
+        assertEquals(expected, yaml);
+    }
+
+    @Test
     public void exportTechnologyAgnosticDeploymentModel_exported() {
         AnnotatedDeploymentModel annotatedDeploymentModel = CreateDeploymentModelsHelper.createExampleEDMM();
         AnnotatedDeploymentModel annotatedDeploymentModelSaved = repository.save(annotatedDeploymentModel);

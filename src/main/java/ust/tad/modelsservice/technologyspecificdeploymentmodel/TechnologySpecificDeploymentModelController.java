@@ -21,12 +21,31 @@ public class TechnologySpecificDeploymentModelController {
     private TechnologySpecificDeploymentModelService technologySpecificDeploymentModelService;
 
     /**
+     * Update an internal technology-specific deployment model.
+     * 
+     * @param technologySpecificDeploymentModel
+     * @return the updated technology-specific deployment model with HttpStatus.OK.
+     */
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<TechnologySpecificDeploymentModel> updateTechnologySpecificDeploymentModel(
+        @RequestBody TechnologySpecificDeploymentModel technologySpecificDeploymentModel) {
+            try {
+                TechnologySpecificDeploymentModel tsdm = 
+                    technologySpecificDeploymentModelService.updateTechnologySpecificDeploymentModel(technologySpecificDeploymentModel);
+                return new ResponseEntity<>(tsdm, HttpStatus.OK);
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Update of technology-specific deployment model failed", e);
+            }
+    }
+
+    /**
      * Initialize an internal representation of the technology-specific deployment model.
      * 
      * @param initializeTechnologySpecificDeploymentModelRequest contains information about the deployment model.
      * @return the created technology-specific deployment model with HttpStatus.CREATED.
      */
-    @PostMapping(consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/init", consumes = "application/json", produces = "application/json")
     public ResponseEntity<TechnologySpecificDeploymentModel> initializeTechnologySpecificDeploymentModel(
         @RequestBody InitializeTechnologySpecificDeploymentModelRequest initializeTechnologySpecificDeploymentModelRequest) {
         try {
