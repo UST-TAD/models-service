@@ -2,6 +2,8 @@ package ust.tad.modelsservice.technologyspecificdeploymentmodel;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,9 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("technology-specific")
 public class TechnologySpecificDeploymentModelController {
+    
+    private static final Logger LOG =
+      LoggerFactory.getLogger(TechnologySpecificDeploymentModelController.class);
 
     @Autowired
     private TechnologySpecificDeploymentModelService technologySpecificDeploymentModelService;
@@ -29,6 +34,8 @@ public class TechnologySpecificDeploymentModelController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<TechnologySpecificDeploymentModel> updateTechnologySpecificDeploymentModel(
         @RequestBody TechnologySpecificDeploymentModel technologySpecificDeploymentModel) {
+            LOG.info("Update tsdm: "+technologySpecificDeploymentModel.toString());
+            
             try {
                 TechnologySpecificDeploymentModel tsdm = 
                     technologySpecificDeploymentModelService.updateTechnologySpecificDeploymentModel(technologySpecificDeploymentModel);

@@ -6,7 +6,7 @@ public class Line {
 
     private int number;
 
-    private double comprehensibility = 0;
+    private double comprehensibility = 0D;
 
     private boolean analyzed = false;
 
@@ -116,6 +116,6 @@ public class Line {
     }
 
     public boolean areAnnotationsValid(double comprehensibility, boolean analyzed) {
-        return !(!analyzed && comprehensibility != 0);
+        return true; //!(!analyzed && comprehensibility != 0);
     }
 }
