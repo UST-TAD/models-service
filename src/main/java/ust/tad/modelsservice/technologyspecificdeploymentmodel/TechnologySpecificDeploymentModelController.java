@@ -54,7 +54,8 @@ public class TechnologySpecificDeploymentModelController {
                 initializeTechnologySpecificDeploymentModelRequest.getTransformationProcessId(),
                 initializeTechnologySpecificDeploymentModelRequest.getTechnology(),
                 initializeTechnologySpecificDeploymentModelRequest.getCommands(),
-                initializeTechnologySpecificDeploymentModelRequest.getLocations());
+                initializeTechnologySpecificDeploymentModelRequest.getLocations(),
+                true);
             return new ResponseEntity<>(tsdm, HttpStatus.CREATED);
         } catch (InvalidNumberOfLinesException | InvalidNumberOfContentException e) {
             e.printStackTrace();

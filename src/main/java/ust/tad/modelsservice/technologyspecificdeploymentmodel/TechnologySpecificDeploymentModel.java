@@ -29,6 +29,8 @@ public class TechnologySpecificDeploymentModel {
     
     private static final String INVALIDNUMBEROFCONTENTEXCEPTIONMESSAGE = "A TechnologySpecificDeploymentModel must have at least one content";
 
+    private Boolean root = false;
+
 
     public TechnologySpecificDeploymentModel() {
     }
@@ -107,6 +109,18 @@ public class TechnologySpecificDeploymentModel {
     public void setEmbeddedDeploymentModels(List<TechnologySpecificDeploymentModel> embeddedDeploymentModels) {
         this.embeddedDeploymentModels = embeddedDeploymentModels;
     }
+    
+    public Boolean isRoot() {
+        return this.root;
+    }
+
+    public Boolean getRoot() {
+        return this.root;
+    }
+
+    public void setRoot(Boolean root) {
+        this.root = root;
+    }
 
     public TechnologySpecificDeploymentModel id(UUID id) {
         setId(id);
@@ -138,6 +152,11 @@ public class TechnologySpecificDeploymentModel {
         return this;
     }
 
+    public TechnologySpecificDeploymentModel root(Boolean root) {
+        setRoot(root);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -146,12 +165,12 @@ public class TechnologySpecificDeploymentModel {
             return false;
         }
         TechnologySpecificDeploymentModel technologySpecificDeploymentModel = (TechnologySpecificDeploymentModel) o;
-        return Objects.equals(id, technologySpecificDeploymentModel.id) && Objects.equals(transformationProcessId, technologySpecificDeploymentModel.transformationProcessId) && Objects.equals(technology, technologySpecificDeploymentModel.technology) && Objects.equals(commands, technologySpecificDeploymentModel.commands) && Objects.equals(content, technologySpecificDeploymentModel.content) && Objects.equals(embeddedDeploymentModels, technologySpecificDeploymentModel.embeddedDeploymentModels);
+        return Objects.equals(id, technologySpecificDeploymentModel.id) && Objects.equals(transformationProcessId, technologySpecificDeploymentModel.transformationProcessId) && Objects.equals(technology, technologySpecificDeploymentModel.technology) && Objects.equals(commands, technologySpecificDeploymentModel.commands) && Objects.equals(content, technologySpecificDeploymentModel.content) && Objects.equals(embeddedDeploymentModels, technologySpecificDeploymentModel.embeddedDeploymentModels) && Objects.equals(root, technologySpecificDeploymentModel.root);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, transformationProcessId, technology, commands, content, embeddedDeploymentModels);
+        return Objects.hash(id, transformationProcessId, technology, commands, content, embeddedDeploymentModels, root);
     }
 
     @Override
@@ -163,7 +182,9 @@ public class TechnologySpecificDeploymentModel {
             ", commands='" + getCommands() + "'" +
             ", content='" + getContent() + "'" +
             ", embeddedDeploymentModels='" + getEmbeddedDeploymentModels() + "'" +
+            ", root='" + isRoot() + "'" +
             "}";
     }
+    
 
 }

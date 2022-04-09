@@ -40,7 +40,8 @@ public class TechnologySpecificDeploymentModelService {
         UUID transformationProcessId, 
         String technology, 
         List<String> commands, 
-        List<Location> locations) throws InvalidNumberOfLinesException, InvalidNumberOfContentException {
+        List<Location> locations,
+        Boolean isRoot) throws InvalidNumberOfLinesException, InvalidNumberOfContentException {
             
         List<DeploymentModelContent> content = new ArrayList<>();
         for (Location location : locations) {
@@ -51,6 +52,7 @@ public class TechnologySpecificDeploymentModelService {
             content.add(new DeploymentModelContent(location.getUrl(), lines));
         }
         TechnologySpecificDeploymentModel technologySpecificDeploymentModel = new TechnologySpecificDeploymentModel(transformationProcessId, technology, commands, content);
+        technologySpecificDeploymentModel.setRoot(isRoot);
         return technologySpecificDeploymentModelRepository.save(technologySpecificDeploymentModel);
     }
     
@@ -61,7 +63,13 @@ public class TechnologySpecificDeploymentModelService {
      * @return the found technology-specific deployment model.
      */
     public TechnologySpecificDeploymentModel getTechnologySpecificDeploymentModelByTransformationProcessId(UUID transformationProcessId) {
-       List<TechnologySpecificDeploymentModel> technologySpecificDeploymentModels = technologySpecificDeploymentModelRepository.findByTransformationProcessId(transformationProcessId);
-       return technologySpecificDeploymentModels.get(0);
+        int index = 0;
+        List<TechnologySpecificDeploymentModel> technologySpecificDeploymentModels = technologySpecificDeploymentModelRepository.findByTransformationProcessId(transformationProcessId);
+        for (TechnologySpecificDeploymentModel tsdm : technologySpecificDeploymentModels) {
+                if (tsdm.isRoot()) {
+                    index = technologySpecificDeploymentModels.indexOf(tsdm);
+                }   
+        }             
+        return technologySpecificDeploymentModels.get(index);
     }
 }
