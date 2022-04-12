@@ -60,4 +60,10 @@ public class AnnotatedArtifact extends Artifact{
             "}";
     }
     
+    public Boolean isConfirmed() {
+        return this.getConfidence() == Confidence.CONFIRMED || 
+            this.getConfidence() == Confidence.MANUALLYCONFIRMED;
+    }
+
+    
 }

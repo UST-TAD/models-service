@@ -72,6 +72,11 @@ public class AnnotatedComponent extends Component{
             ", confidence='" + getConfidence() + "'" +
             "}";
     }
+    
+    public Boolean isConfirmed() {
+        return this.getConfidence() == Confidence.CONFIRMED || 
+            this.getConfidence() == Confidence.MANUALLYCONFIRMED;
+    }
 
     
 }

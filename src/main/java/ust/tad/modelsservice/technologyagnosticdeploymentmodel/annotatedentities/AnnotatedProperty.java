@@ -63,5 +63,10 @@ public class AnnotatedProperty extends Property{
             "}";
     }
 
+    public Boolean isConfirmed() {
+        return this.getConfidence() == Confidence.CONFIRMED || 
+            this.getConfidence() == Confidence.MANUALLYCONFIRMED;
+    }
+
     
 }

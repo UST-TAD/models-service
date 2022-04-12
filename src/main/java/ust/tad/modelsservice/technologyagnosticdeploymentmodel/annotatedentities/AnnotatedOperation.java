@@ -58,6 +58,11 @@ public class AnnotatedOperation extends Operation{
             ", confidence='" + getConfidence() + "'" +
             "}";
     }
+    
+    public Boolean isConfirmed() {
+        return this.getConfidence() == Confidence.CONFIRMED || 
+            this.getConfidence() == Confidence.MANUALLYCONFIRMED;
+    }
 
     
 }

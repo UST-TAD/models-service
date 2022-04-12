@@ -22,7 +22,23 @@ public class TechnologySpecificDeploymentModelService {
      * @return the updated technology-specific deployment model.
      */
     public TechnologySpecificDeploymentModel updateTechnologySpecificDeploymentModel(TechnologySpecificDeploymentModel technologySpecificDeploymentModel) {
-        return technologySpecificDeploymentModelRepository.save(technologySpecificDeploymentModel);
+        return persistEmbeddedModels(technologySpecificDeploymentModel);
+    }
+
+    private TechnologySpecificDeploymentModel persistEmbeddedModels(TechnologySpecificDeploymentModel tsdm) {
+        if (tsdm.getEmbeddedDeploymentModels().isEmpty()) {
+            return persistModel(tsdm);
+        } else {
+            tsdm.getEmbeddedDeploymentModels().forEach(this::persistEmbeddedModels);
+            return persistModel(tsdm);
+        }
+    }
+
+    private TechnologySpecificDeploymentModel persistModel(TechnologySpecificDeploymentModel tsdm) {
+        if(tsdm.getId() == null) {
+            tsdm.setId(UUID.randomUUID());
+        }
+        return technologySpecificDeploymentModelRepository.save(tsdm);
     }
 
     /**
@@ -66,7 +82,8 @@ public class TechnologySpecificDeploymentModelService {
         int index = 0;
         List<TechnologySpecificDeploymentModel> technologySpecificDeploymentModels = technologySpecificDeploymentModelRepository.findByTransformationProcessId(transformationProcessId);
         for (TechnologySpecificDeploymentModel tsdm : technologySpecificDeploymentModels) {
-                if (tsdm.isRoot()) {
+            Boolean isRoot = tsdm.isRoot();    
+            if (Boolean.TRUE.equals(isRoot)) {
                     index = technologySpecificDeploymentModels.indexOf(tsdm);
                 }   
         }             

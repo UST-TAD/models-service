@@ -3,6 +3,7 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,12 +36,12 @@ public class TechnologyAgnosticDeploymentModelService {
      * @return the initialized technology-agnostic deployment model.
      * @throws InvalidPropertyValueException 
      */
-    public AnnotatedDeploymentModel initializeTechnologyAgnosticDeploymentModel(UUID transformationProcessId) throws InvalidPropertyValueException {
+    public AnnotatedDeploymentModel initializeTechnologyAgnosticDeploymentModel(UUID transformationProcessId) {
         return repository.save(
             new AnnotatedDeploymentModel(
-                createBaseProperties(), 
-                List.of(), 
-                List.of(), 
+                new ArrayList<>(), 
+                new ArrayList<>(), 
+                new ArrayList<>(), 
                 createBaseComponentTypes(), 
                 createBaseRelationTypes(), 
                 transformationProcessId));
@@ -102,11 +103,6 @@ public class TechnologyAgnosticDeploymentModelService {
     private List<ComponentType> createBaseComponentTypes() {        
         ComponentType baseType = new ComponentType("BaseType", "This is the base type", List.of(), List.of(), null);
         return List.of(baseType);
-    }
-
-    private List<Property> createBaseProperties() throws InvalidPropertyValueException {
-        Property versionProperty = new Property("version", PropertyType.STRING, true, "edm_1_0");
-        return List.of(versionProperty);
     }
 
     

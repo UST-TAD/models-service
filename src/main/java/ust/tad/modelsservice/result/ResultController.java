@@ -20,20 +20,30 @@ import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.Entity
 public class ResultController {
     
     @Autowired
-    TechnologyAgnosticDeploymentModelService technologyAgnosticDeploymentModelService;
+    private TechnologyAgnosticDeploymentModelService technologyAgnosticDeploymentModelService;
+
+    @Autowired
+    private AnalysisProgressService analysisProgressService;
+
+    @Autowired
+    private ComprehensibilityService comprehensibilityService;
+
+    @Autowired
+    private ConfidenceService confidenceService;
+
+    @Autowired
+    private TypeCompletenessService typeCompletenessService;
 
     /**
      * Get the result for the transformation process, identified by the transformationProcessId.
-     * TODO include metrics
      * 
      * @param transformationProcessId
      * @return the absolute path where the technology-agnostic deployment model was exported to with HttpStatus.OK.
      */
     @GetMapping(value = "/{transformationProcessId}", produces = "application/json")
-    public ResponseEntity<String> getResult(@PathVariable UUID transformationProcessId) {
-        try {
-            String path = technologyAgnosticDeploymentModelService.exportTechnologyAgnosticDeploymentModel(transformationProcessId);
-            return new ResponseEntity<>(path, HttpStatus.OK);
+    public ResponseEntity<Result> getResult(@PathVariable UUID transformationProcessId) {
+        try {            
+            return new ResponseEntity<>(createResult(transformationProcessId), HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
@@ -41,6 +51,25 @@ public class ResultController {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
         }
+    }
+
+    /**
+     * Create a result from the path to the exported technology-agnostic deployment model and the calculated metrics.
+     * 
+     * @param transformationProcessId
+     * @return
+     * @throws EntityNotFoundException
+     * @throws IOException
+     */
+    private Result createResult(UUID transformationProcessId) throws EntityNotFoundException, IOException {
+        Result result = new Result();
+        result.setPath(technologyAgnosticDeploymentModelService.exportTechnologyAgnosticDeploymentModel(transformationProcessId));
+        result.setAnalysisProgress(analysisProgressService.calculateAnalysisProgress(transformationProcessId));
+        result.setComprehensibility(comprehensibilityService.calculateComprehensibility(transformationProcessId));
+        result.setConfidence(confidenceService.calculateConfidence(transformationProcessId));
+        result.setTypeCompletenessVal1(typeCompletenessService.calculateTypeCompletenessVal1(transformationProcessId));
+        result.setTypeCompletenessVal2(typeCompletenessService.calculateTypeCompletenessVal2(transformationProcessId));
+        return result;
     }
     
 }
