@@ -3,14 +3,14 @@ package ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public abstract class ModelEntity {
     
     @Id
-    private String id = new ObjectId().toString();
+    private String id = UUID.randomUUID().toString();
 
     private String name;
 

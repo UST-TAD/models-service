@@ -1,6 +1,5 @@
 ---
-properties:
-  - version: "edm_1_0"
+properties: []
 components: []
 relations: []
 component_types:

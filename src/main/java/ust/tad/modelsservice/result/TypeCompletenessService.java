@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.TechnologyAgnosticDeploymentModelService;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedDeploymentModel;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Component;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.ComponentType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Relation;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.RelationType;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.TechnologyAgnosticDeploymentModel;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.EntityNotFoundException;
 
 @Service
@@ -20,7 +20,7 @@ public class TypeCompletenessService {
     private TechnologyAgnosticDeploymentModelService service;
     
     public double calculateTypeCompletenessVal1(UUID transformationProcessId) throws EntityNotFoundException {
-        AnnotatedDeploymentModel tadm = 
+        TechnologyAgnosticDeploymentModel tadm = 
             service.getTechnologyAgnosticDeploymentModelByTransformationProcessId(transformationProcessId);
         double sumOfActualPropertiesAndOperations = 0;
         double sumOfRequiredPropertiesAndOperations = 0;
@@ -41,7 +41,7 @@ public class TypeCompletenessService {
     }
 
     public double calculateTypeCompletenessVal2(UUID transformationProcessId) throws EntityNotFoundException {
-        AnnotatedDeploymentModel tadm = 
+        TechnologyAgnosticDeploymentModel tadm = 
             service.getTechnologyAgnosticDeploymentModelByTransformationProcessId(transformationProcessId);
 
         double sumOfTypeCompleteEntities = (double)tadm.getComponents().stream().filter(this::isComponentTypeComplete).count()

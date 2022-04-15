@@ -13,6 +13,8 @@ public class Property {
     private boolean required;
 
     private Object value;
+    
+    private Confidence confidence;
 
     private static final String INVALIDPROPERTYVALUEEXCEPTIONMESSAGE = "The value '%s' with type '%s' of the property does not match the given type %s";
     
@@ -20,12 +22,13 @@ public class Property {
     public Property() {
     }
 
-    public Property(String key, PropertyType type, boolean required, Object value) throws InvalidPropertyValueException {
+    public Property(String key, PropertyType type, boolean required, Object value, Confidence confidence) throws InvalidPropertyValueException {
         if(isValueMatchingType(type, value)) {
             this.key = key;
             this.type = type;
             this.required = required;
             this.value = value;
+            this.confidence = confidence;
         } else {
             throw new InvalidPropertyValueException(String.format(INVALIDPROPERTYVALUEEXCEPTIONMESSAGE, value.toString(), value.getClass().toString(), type.toString()));
         }        
@@ -75,6 +78,14 @@ public class Property {
         }
     }
     
+    public Confidence getConfidence() {
+        return this.confidence;
+    }
+
+    public void setConfidence(Confidence confidence) {
+        this.confidence = confidence;
+    }
+    
     public Property key(String key) {
         setKey(key);
         return this;
@@ -95,6 +106,11 @@ public class Property {
         return this;
     }
 
+    public Property confidence(Confidence confidence) {
+        setConfidence(confidence);
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -103,12 +119,12 @@ public class Property {
             return false;
         }
         Property property = (Property) o;
-        return Objects.equals(key, property.key) && Objects.equals(type, property.type) && required == property.required && Objects.equals(value, property.value);
+        return Objects.equals(key, property.key) && Objects.equals(type, property.type) && required == property.required && Objects.equals(value, property.value) && Objects.equals(confidence, property.confidence);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key, type, required, value);
+        return Objects.hash(key, type, required, value, confidence);
     }
 
     @Override
@@ -118,6 +134,7 @@ public class Property {
             ", type='" + getType() + "'" +
             ", required='" + isRequired() + "'" +
             ", value='" + getValue() + "'" +
+            ", confidence='" + getConfidence() + "'" +
             "}";
     }
 
@@ -139,5 +156,13 @@ public class Property {
             }
         }        
     }
+    
+    public Boolean isConfirmed() {
+        if(this.getConfidence() == null) {
+            return false;
+        }
+        return this.getConfidence().equals(Confidence.CONFIRMED);
+    }
+
 
 }

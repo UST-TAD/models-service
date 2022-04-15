@@ -15,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedDeploymentModel;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.TechnologyAgnosticDeploymentModel;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.repositories.TechnologyAgnosticDeploymentModelRepository;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.YamlObjectMapper;
 
 @SpringBootTest
@@ -25,7 +26,7 @@ public class TechnologyAgnosticDeploymentModelServiceTest {
     TechnologyAgnosticDeploymentModelService service;
 
     @Autowired
-    AnnotatedDeploymentModelRepository repository;
+    TechnologyAgnosticDeploymentModelRepository repository;
 
     @Test
     public void initializeTechnologyAgnosticDeploymentModel_created() throws IOException, URISyntaxException {        
@@ -35,7 +36,7 @@ public class TechnologyAgnosticDeploymentModelServiceTest {
 
         UUID transformationProcessId = UUID.randomUUID();
 
-        AnnotatedDeploymentModel dm = assertDoesNotThrow(() -> 
+        TechnologyAgnosticDeploymentModel dm = assertDoesNotThrow(() -> 
             service.initializeTechnologyAgnosticDeploymentModel(transformationProcessId));
 
         String yaml = mapper.writeValueAsString(dm);
@@ -46,14 +47,14 @@ public class TechnologyAgnosticDeploymentModelServiceTest {
     @Test
     public void updateTechnologyAgnosticDeploymentModel_updated() throws IOException, URISyntaxException {
         UUID transformationProcessId = UUID.randomUUID();
-        AnnotatedDeploymentModel initialDM = assertDoesNotThrow(() -> 
+        TechnologyAgnosticDeploymentModel initialDM = assertDoesNotThrow(() -> 
             service.initializeTechnologyAgnosticDeploymentModel(transformationProcessId));
 
-        AnnotatedDeploymentModel toUpdateDM = CreateDeploymentModelsHelper.createExampleEDMM();
+            TechnologyAgnosticDeploymentModel toUpdateDM = CreateDeploymentModelsHelper.createExampleEDMM();
         toUpdateDM.setId(initialDM.getId());
         toUpdateDM.setTransformationProcessId(transformationProcessId);
 
-        AnnotatedDeploymentModel updatedDM = 
+        TechnologyAgnosticDeploymentModel updatedDM = 
             service.updateTechnologyAgnosticDeploymentModel(toUpdateDM);
 
         assertEquals(toUpdateDM, updatedDM);
@@ -63,10 +64,10 @@ public class TechnologyAgnosticDeploymentModelServiceTest {
 
     @Test
     public void exportTechnologyAgnosticDeploymentModel_exported() {
-        AnnotatedDeploymentModel annotatedDeploymentModel = CreateDeploymentModelsHelper.createExampleEDMM();
-        AnnotatedDeploymentModel annotatedDeploymentModelSaved = repository.save(annotatedDeploymentModel);
+        TechnologyAgnosticDeploymentModel deploymentModel = CreateDeploymentModelsHelper.createExampleEDMM();
+        TechnologyAgnosticDeploymentModel deploymentModelSaved = repository.save(deploymentModel);
 
-        assertDoesNotThrow(() -> service.exportTechnologyAgnosticDeploymentModel(annotatedDeploymentModelSaved.getTransformationProcessId()));
+        assertDoesNotThrow(() -> service.exportTechnologyAgnosticDeploymentModel(deploymentModelSaved.getTransformationProcessId()));
     }
 
 }

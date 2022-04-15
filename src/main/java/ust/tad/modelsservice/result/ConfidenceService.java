@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.TechnologyAgnosticDeploymentModelService;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.*;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Artifact;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Component;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Operation;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Relation;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.TechnologyAgnosticDeploymentModel;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.exceptions.EntityNotFoundException;
 
 @Service
@@ -22,7 +22,7 @@ public class ConfidenceService {
     private TechnologyAgnosticDeploymentModelService service;
     
     public double calculateConfidence(UUID transformationProcessId) throws EntityNotFoundException {
-        AnnotatedDeploymentModel tadm = 
+        TechnologyAgnosticDeploymentModel tadm = 
             service.getTechnologyAgnosticDeploymentModelByTransformationProcessId(transformationProcessId);
         double sumOfEntities = calculateSumOfEntities(tadm);
         if (sumOfEntities == 0) {
@@ -31,23 +31,17 @@ public class ConfidenceService {
         return calculateSumOfConfirmedEntities(tadm) / sumOfEntities;
     }
 
-    private double calculateSumOfConfirmedEntities(AnnotatedDeploymentModel tadm) {        
+    private double calculateSumOfConfirmedEntities(TechnologyAgnosticDeploymentModel tadm) {        
         double result = 0;
         result += calculateSumOfConfirmedEntitiesForProperties(tadm.getProperties());
         for (Component component : tadm.getComponents()) {
-            if (component instanceof AnnotatedComponent) {
-                AnnotatedComponent annotated = (AnnotatedComponent) component;
-                result += Boolean.TRUE.equals(annotated.isConfirmed()) ? 1 : 0;
-            }
+            result += Boolean.TRUE.equals(component.isConfirmed()) ? 1 : 0;
             result += calculateSumOfConfirmedEntitiesForProperties(component.getProperties());
             result += calculateSumOfConfirmedEntitiesForArtifacts(component.getArtifacts());
             result += calculateSumOfConfirmedEntitiesForOperations(component.getOperations());
         }
         for (Relation relation : tadm.getRelations()) {
-            if (relation instanceof AnnotatedRelation) {
-                AnnotatedRelation annotated = (AnnotatedRelation) relation;
-                result += Boolean.TRUE.equals(annotated.isConfirmed()) ? 1 : 0;
-            }
+            result += Boolean.TRUE.equals(relation.isConfirmed()) ? 1 : 0;
             result += calculateSumOfConfirmedEntitiesForProperties(relation.getProperties());
             result += calculateSumOfConfirmedEntitiesForOperations(relation.getOperations());
         }
@@ -57,10 +51,7 @@ public class ConfidenceService {
     private int calculateSumOfConfirmedEntitiesForProperties(List<Property> properties) {
         int result = 0;
         for (Property property : properties) {
-            if (property instanceof AnnotatedProperty) {
-                AnnotatedProperty annotated = (AnnotatedProperty) property;
-                result += Boolean.TRUE.equals(annotated.isConfirmed()) ? 1 : 0;
-            }
+            result += Boolean.TRUE.equals(property.isConfirmed()) ? 1 : 0;
         }
         return result;
     }
@@ -68,10 +59,7 @@ public class ConfidenceService {
     private int calculateSumOfConfirmedEntitiesForArtifacts(List<Artifact> artifacts) {
         int result = 0;
         for (Artifact artifact : artifacts) {
-            if (artifact instanceof AnnotatedArtifact) {
-                AnnotatedArtifact annotated = (AnnotatedArtifact) artifact;
-                result += Boolean.TRUE.equals(annotated.isConfirmed()) ? 1 : 0;
-            }
+            result += Boolean.TRUE.equals(artifact.isConfirmed()) ? 1 : 0;
         }
         return result;
     }
@@ -79,17 +67,14 @@ public class ConfidenceService {
     private int calculateSumOfConfirmedEntitiesForOperations(List<Operation> operations) {
         int result = 0;
         for (Operation operation : operations) {
-            if (operation instanceof AnnotatedOperation) {
-                AnnotatedOperation annotated = (AnnotatedOperation) operation;
-                result += Boolean.TRUE.equals(annotated.isConfirmed()) ? 1 : 0;
-            }
+            result += Boolean.TRUE.equals(operation.isConfirmed()) ? 1 : 0;
             result += calculateSumOfConfirmedEntitiesForArtifacts(operation.getArtifacts());
         }
         return result;
     }
 
 
-    private double calculateSumOfEntities(AnnotatedDeploymentModel tadm) {
+    private double calculateSumOfEntities(TechnologyAgnosticDeploymentModel tadm) {
         double result = 0;
         result += tadm.getProperties().size();
         result += tadm.getComponents().size();

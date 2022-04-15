@@ -18,6 +18,8 @@ public class Relation extends ModelElement{
     @DBRef
     private Component target;
 
+    private Confidence confidence;
+
 
     private static final String INVALIDRELATIONEXCEPTIONMESSAGE = "The source and the target of a relation must not be the same component.";
 
@@ -26,14 +28,15 @@ public class Relation extends ModelElement{
         super();
     }
 
-    public Relation(String name, String description, List<Property> properties, List<Operation> operations, RelationType type, Component source, Component target) throws InvalidRelationException {
+    public Relation(String name, String description, List<Property> properties, List<Operation> operations, RelationType type, Component source, Component target, Confidence confidence) throws InvalidRelationException {
         super(name, description, properties, operations);
-        if(areSourceAndTargetEqual(source, target)) {
+        if(Boolean.TRUE.equals(areSourceAndTargetEqual(source, target))) {
             throw new InvalidRelationException(INVALIDRELATIONEXCEPTIONMESSAGE);
         } else {
             this.type = type;
             this.source = source;
             this.target = target;
+            this.confidence = confidence;
         }
     }
     
@@ -50,7 +53,7 @@ public class Relation extends ModelElement{
     }
 
     public void setSource(Component source) throws InvalidRelationException {
-        if(areSourceAndTargetEqual(source, this.target)) {
+        if(Boolean.TRUE.equals(areSourceAndTargetEqual(source, this.target))) {
             throw new InvalidRelationException(INVALIDRELATIONEXCEPTIONMESSAGE);
         } else {
             this.source = source;
@@ -62,11 +65,19 @@ public class Relation extends ModelElement{
     }
 
     public void setTarget(Component target) throws InvalidRelationException {
-        if(areSourceAndTargetEqual(this.source, target)) {
+        if(Boolean.TRUE.equals(areSourceAndTargetEqual(this.source, target))) {
             throw new InvalidRelationException(INVALIDRELATIONEXCEPTIONMESSAGE);
         } else {
             this.target = target;
         }
+    }
+    
+    public Confidence getConfidence() {
+        return this.confidence;
+    }
+
+    public void setConfidence(Confidence confidence) {
+        this.confidence = confidence;
     }
 
     public Relation type(RelationType type) {
@@ -81,6 +92,11 @@ public class Relation extends ModelElement{
 
     public Relation target(Component target) throws InvalidRelationException {
         setTarget(target);
+        return this;
+    }
+    
+    public Relation confidence(Confidence confidence) {
+        setConfidence(confidence);
         return this;
     }
 
@@ -99,12 +115,13 @@ public class Relation extends ModelElement{
             && Objects.equals(getOperations(), relation.getOperations())
             && Objects.equals(type, relation.type)
             && Objects.equals(source, relation.source) 
-            && Objects.equals(target, relation.target);
+            && Objects.equals(target, relation.target)
+            && Objects.equals(confidence, relation.confidence);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getDescription(), getProperties(), getOperations(), type, source, target);
+        return Objects.hash(getId(), getName(), getDescription(), getProperties(), getOperations(), type, source, target, confidence);
     }
 
     @Override
@@ -118,6 +135,7 @@ public class Relation extends ModelElement{
             ", operations='" + getOperations() + "'" +
             ", source='" + getSource() + "'" +
             ", target='" + getTarget() + "'" +
+            ", confidence='" + getConfidence() + "'" +
             "}";
     }
 
@@ -125,6 +143,9 @@ public class Relation extends ModelElement{
         return source.equals(target);
     }
 
+    public Boolean isConfirmed() {
+        return this.getConfidence().equals(Confidence.CONFIRMED);
+    }
 
     
 }

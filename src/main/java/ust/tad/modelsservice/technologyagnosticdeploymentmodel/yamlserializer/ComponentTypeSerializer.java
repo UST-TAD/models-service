@@ -42,22 +42,24 @@ public class ComponentTypeSerializer extends StdSerializer<ComponentType> {
                 gen.writeObjectFieldStart(property.getKey());
                 gen.writeStringField("type", property.getType().toString());
                 gen.writeBooleanField("required", property.getRequired());
-                switch(property.getType()) {
-                    case BOOLEAN:
-                        gen.writeBooleanField("default_value", (Boolean) property.getValue());    
-                        break;            
-                    case DOUBLE:
-                        gen.writeNumberField("default_value", (Double) property.getValue()); 
-                        break;               
-                    case INTEGER:
-                        gen.writeNumberField("default_value", (Integer) property.getValue());
-                        break;
-                    case STRING:
-                        gen.writeStringField("default_value", property.getValue().toString());
-                        break;
-                    default:
-                        break;
-                }
+                if(property.getValue() != null) {
+                    switch(property.getType()) {
+                        case BOOLEAN:
+                            gen.writeBooleanField("default_value", (Boolean) property.getValue());    
+                            break;            
+                        case DOUBLE:
+                            gen.writeNumberField("default_value", (Double) property.getValue()); 
+                            break;               
+                        case INTEGER:
+                            gen.writeNumberField("default_value", (Integer) property.getValue());
+                            break;
+                        case STRING:
+                            gen.writeStringField("default_value", property.getValue().toString());
+                            break;
+                        default:
+                            break;
+                    }
+                }                
                 gen.writeEndObject();
                 gen.writeEndObject();
             }

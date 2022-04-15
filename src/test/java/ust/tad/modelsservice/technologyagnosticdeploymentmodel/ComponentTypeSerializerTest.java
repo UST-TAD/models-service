@@ -11,9 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedOperation;
-import ust.tad.modelsservice.technologyagnosticdeploymentmodel.annotatedentities.AnnotatedProperty;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.ComponentType;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Operation;
+import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.Property;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.entities.PropertyType;
 import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.YamlObjectMapper;
 
@@ -53,8 +53,8 @@ public class ComponentTypeSerializerTest {
             + "  operations:\n"
             + "    - Create: \"~\"\n";
 
-        AnnotatedProperty property = assertDoesNotThrow(() -> new AnnotatedProperty("testProperty", PropertyType.STRING, true, "testValue", null));
-        AnnotatedOperation operationDef = new AnnotatedOperation("Create", null, null);
+        Property property = assertDoesNotThrow(() -> new Property("testProperty", PropertyType.STRING, true, "testValue", null));
+        Operation operationDef = new Operation("Create", null, null);
 
         ComponentType baseType = new ComponentType("BaseType", "This is the base type", List.of(), List.of(), null);
         ComponentType componentTypeOne = new ComponentType("TypeOne", "type one", List.of(property), List.of(operationDef), baseType);

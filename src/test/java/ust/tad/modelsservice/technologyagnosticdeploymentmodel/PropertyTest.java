@@ -81,7 +81,7 @@ public class PropertyTest {
 
     @Test
     public void createProperty_TypeString_Constructor() {
-        assertDoesNotThrow(() -> new Property("testProperty", PropertyType.STRING, true, "testValue"));
+        assertDoesNotThrow(() -> new Property("testProperty", PropertyType.STRING, true, "testValue", null));
     }
     
 }
