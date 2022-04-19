@@ -35,7 +35,7 @@ public class ComponentSerializer extends StdSerializer<Component> {
 
         provider.defaultSerializeField("operations", value.getOperations(), gen);          
 
-        provider.defaultSerializeField("artifatcs", value.getArtifacts(), gen);
+        provider.defaultSerializeField("artifacts", value.getArtifacts(), gen);
 
         gen.writeEndObject();
         gen.writeEndObject();       

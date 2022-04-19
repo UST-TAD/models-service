@@ -21,9 +21,9 @@ public class ArtifactSerializer extends StdSerializer<Artifact>{
     @Override
     public void serialize(Artifact value, JsonGenerator gen, SerializerProvider provider) throws IOException {
         gen.writeStartObject();
-        gen.writeObjectFieldStart(value.getName());
+        gen.writeObjectFieldStart(value.getType());
 
-        gen.writeStringField("type", value.getType());
+        gen.writeStringField("name", value.getName());
         if (value.getFileUri() != null) {
             gen.writeStringField("fileURI", value.getFileUri().toString());
         } else {            
