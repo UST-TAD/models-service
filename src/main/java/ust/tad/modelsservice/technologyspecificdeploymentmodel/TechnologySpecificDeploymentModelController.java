@@ -34,8 +34,7 @@ public class TechnologySpecificDeploymentModelController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<TechnologySpecificDeploymentModel> updateTechnologySpecificDeploymentModel(
         @RequestBody TechnologySpecificDeploymentModel technologySpecificDeploymentModel) {
-            LOG.info("Update tsdm: "+technologySpecificDeploymentModel.toString());
-            
+            LOG.info("Updating technology-specific deployment model");            
             try {
                 TechnologySpecificDeploymentModel tsdm = 
                     technologySpecificDeploymentModelService.updateTechnologySpecificDeploymentModel(technologySpecificDeploymentModel);
@@ -55,19 +54,20 @@ public class TechnologySpecificDeploymentModelController {
     @PostMapping(value = "/init", consumes = "application/json", produces = "application/json")
     public ResponseEntity<TechnologySpecificDeploymentModel> initializeTechnologySpecificDeploymentModel(
         @RequestBody InitializeTechnologySpecificDeploymentModelRequest initializeTechnologySpecificDeploymentModelRequest) {
-        try {
-            TechnologySpecificDeploymentModel tsdm = 
-            technologySpecificDeploymentModelService.createTechnologySpecificDeploymentModel(
-                initializeTechnologySpecificDeploymentModelRequest.getTransformationProcessId(),
-                initializeTechnologySpecificDeploymentModelRequest.getTechnology(),
-                initializeTechnologySpecificDeploymentModelRequest.getCommands(),
-                initializeTechnologySpecificDeploymentModelRequest.getLocations(),
-                true);
-            return new ResponseEntity<>(tsdm, HttpStatus.CREATED);
-        } catch (InvalidNumberOfLinesException | InvalidNumberOfContentException e) {
-            e.printStackTrace();
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Initialization of technology-specific deployment model failed", e);
-        }
+            LOG.info("Initializing technology-specific deployment model");
+            try {
+                TechnologySpecificDeploymentModel tsdm = 
+                technologySpecificDeploymentModelService.createTechnologySpecificDeploymentModel(
+                    initializeTechnologySpecificDeploymentModelRequest.getTransformationProcessId(),
+                    initializeTechnologySpecificDeploymentModelRequest.getTechnology(),
+                    initializeTechnologySpecificDeploymentModelRequest.getCommands(),
+                    initializeTechnologySpecificDeploymentModelRequest.getLocations(),
+                    true);
+                return new ResponseEntity<>(tsdm, HttpStatus.CREATED);
+            } catch (InvalidNumberOfLinesException | InvalidNumberOfContentException e) {
+                e.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Initialization of technology-specific deployment model failed", e);
+            }
     }
 
     /**
@@ -78,6 +78,7 @@ public class TechnologySpecificDeploymentModelController {
      */
     @GetMapping("/{transformationProcessId}")
     public ResponseEntity<TechnologySpecificDeploymentModel> getByTransformationProcessId(@PathVariable UUID transformationProcessId) {
+        LOG.info("Sending technology-specific deployment model");
         try {
             return new ResponseEntity<>(technologySpecificDeploymentModelService.getTechnologySpecificDeploymentModelByTransformationProcessId(transformationProcessId), HttpStatus.OK);
         } catch (Exception e) {
