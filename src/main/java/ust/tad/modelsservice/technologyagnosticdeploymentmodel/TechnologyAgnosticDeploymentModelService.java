@@ -26,16 +26,16 @@ import ust.tad.modelsservice.technologyagnosticdeploymentmodel.yamlserializer.*;
 public class TechnologyAgnosticDeploymentModelService {
 
     @Autowired
-    TechnologyAgnosticDeploymentModelRepository deploymentModelRepository;
+    private TechnologyAgnosticDeploymentModelRepository deploymentModelRepository;
 
     @Autowired
-    ComponentTypeRepository componentTypeRepository;
+    private ComponentTypeRepository componentTypeRepository;
 
     @Autowired
-    RelationTypeRepository relationTypeRepository;
+    private RelationTypeRepository relationTypeRepository;
 
     @Autowired
-    ComponentRepository componentRepository;
+    private ComponentRepository componentRepository;
 
     @Value("${tadm.output.directory}")
     private String outputPath;

@@ -27,7 +27,7 @@ public class TechnologyAgnosticDeploymentModelController {
       LoggerFactory.getLogger(TechnologyAgnosticDeploymentModelController.class);
 
     @Autowired
-    TechnologyAgnosticDeploymentModelService technologyAgnosticDeploymentModelService;
+    private TechnologyAgnosticDeploymentModelService technologyAgnosticDeploymentModelService;
 
     /**
      * Update a technology-agnostic deployment model.
