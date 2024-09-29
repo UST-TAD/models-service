@@ -24,7 +24,7 @@ public class OperationSerializer extends StdSerializer<Operation> {
         gen.writeStartObject();
         gen.writeObjectFieldStart(value.getName());
 
-        provider.defaultSerializeField("artifatcs", value.getArtifacts(), gen);
+        provider.defaultSerializeField("artifacts", value.getArtifacts(), gen);
 
         gen.writeEndObject();
         gen.writeEndObject();     
